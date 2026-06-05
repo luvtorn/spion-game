@@ -3,14 +3,24 @@ import './App.css'
 import { PlayPanel } from './components/PlayPanel'
 import { SetupPanel } from './components/SetupPanel'
 import { Topbar } from './components/Topbar'
-import { categories } from './data/categories'
+import { defaultCategories } from './data/categories'
+import { useCategories } from './hooks/useCategories'
 import { usePlayers } from './hooks/usePlayers'
 import type { Game } from './types'
 import { pickRandom } from './utils/game'
 
 function App() {
+  const {
+    categories,
+    addCustomCategory,
+    deleteCustomCategory,
+    renameCustomCategory,
+    addPlace,
+    updatePlace,
+    deletePlace,
+  } = useCategories()
   const { players, setPlayerCount, renamePlayer, cleanupPlayerNames } = usePlayers()
-  const [categoryId, setCategoryId] = useState(categories[0].id)
+  const [categoryId, setCategoryId] = useState(defaultCategories[0].id)
   const [game, setGame] = useState<Game | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isCardOpen, setIsCardOpen] = useState(false)
@@ -18,17 +28,18 @@ function App() {
 
   const selectedCategory = useMemo(
     () => categories.find((category) => category.id === categoryId) ?? categories[0],
-    [categoryId],
+    [categories, categoryId],
   )
 
   function startGame() {
     const cleanPlayers = cleanupPlayerNames()
     const spy = pickRandom(cleanPlayers)
     const firstSpeaker = pickRandom(cleanPlayers)
+    const places = selectedCategory.places.map((place) => place.trim()).filter(Boolean)
 
     setGame({
       category: selectedCategory,
-      place: pickRandom(selectedCategory.places),
+      place: pickRandom(places),
       spyId: spy.id,
       firstSpeakerId: firstSpeaker.id,
       startedAt: Date.now(),
@@ -36,6 +47,14 @@ function App() {
     setActiveIndex(0)
     setIsCardOpen(false)
     setRound((current) => current + 1)
+  }
+
+  function handleDeleteCustomCategory(categoryIdToDelete: string) {
+    deleteCustomCategory(categoryIdToDelete)
+
+    if (categoryId === categoryIdToDelete) {
+      setCategoryId(defaultCategories[0].id)
+    }
   }
 
   function handleCardClick() {
@@ -70,6 +89,12 @@ function App() {
           onPlayerRename={renamePlayer}
           onStartGame={startGame}
           onResetGame={resetGame}
+          onAddCustomCategory={addCustomCategory}
+          onDeleteCustomCategory={handleDeleteCustomCategory}
+          onRenameCustomCategory={renameCustomCategory}
+          onAddPlace={addPlace}
+          onUpdatePlace={updatePlace}
+          onDeletePlace={deletePlace}
         />
 
         <PlayPanel

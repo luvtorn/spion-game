@@ -1,6 +1,6 @@
-import type { CSSProperties } from 'react'
 import type { Category, Player } from '../types'
 import { MAX_PLAYERS, MIN_PLAYERS } from '../utils/game'
+import { CategoryManager } from './CategoryManager'
 
 type SetupPanelProps = {
   categories: Category[]
@@ -11,6 +11,12 @@ type SetupPanelProps = {
   onPlayerRename: (id: string, name: string) => void
   onStartGame: () => void
   onResetGame: () => void
+  onAddCustomCategory: (name: string) => string
+  onDeleteCustomCategory: (categoryId: string) => void
+  onRenameCustomCategory: (categoryId: string, name: string) => void
+  onAddPlace: (categoryId: string) => void
+  onUpdatePlace: (categoryId: string, placeIndex: number, place: string) => void
+  onDeletePlace: (categoryId: string, placeIndex: number) => void
 }
 
 export function SetupPanel({
@@ -22,6 +28,12 @@ export function SetupPanel({
   onPlayerRename,
   onStartGame,
   onResetGame,
+  onAddCustomCategory,
+  onDeleteCustomCategory,
+  onRenameCustomCategory,
+  onAddPlace,
+  onUpdatePlace,
+  onDeletePlace,
 }: SetupPanelProps) {
   return (
     <aside className="setup-panel" aria-label="Настройки игры">
@@ -53,20 +65,17 @@ export function SetupPanel({
         </div>
       </div>
 
-      <div className="category-grid" aria-label="Категории">
-        {categories.map((category) => (
-          <button
-            className={category.id === selectedCategoryId ? 'category-card active' : 'category-card'}
-            key={category.id}
-            style={{ '--category-accent': category.accent } as CSSProperties}
-            type="button"
-            onClick={() => onCategoryChange(category.id)}
-          >
-            <span>{category.name}</span>
-            <small>{category.places.length} мест</small>
-          </button>
-        ))}
-      </div>
+      <CategoryManager
+        categories={categories}
+        selectedCategoryId={selectedCategoryId}
+        onCategoryChange={onCategoryChange}
+        onAddCustomCategory={onAddCustomCategory}
+        onDeleteCustomCategory={onDeleteCustomCategory}
+        onRenameCustomCategory={onRenameCustomCategory}
+        onAddPlace={onAddPlace}
+        onUpdatePlace={onUpdatePlace}
+        onDeletePlace={onDeletePlace}
+      />
 
       <div className="players-list">
         <div className="list-title">

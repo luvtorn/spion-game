@@ -3,6 +3,7 @@ export type Category = {
   name: string
   accent: string
   places: string[]
+  isCustom?: boolean
 }
 
 export type Player = {

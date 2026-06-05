@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+
 type RoleCardProps = {
   isOpen: boolean
   isSpy: boolean
@@ -7,10 +9,16 @@ type RoleCardProps = {
 
 export function RoleCard({ isOpen, isSpy, place, onClick }: RoleCardProps) {
   return (
-    <button
+    <motion.button
       className={isOpen ? 'role-card revealed' : 'role-card'}
       type="button"
       onClick={onClick}
+      whileHover={{ y: -4, rotateX: 1 }}
+      whileTap={{ scale: 0.985 }}
+      animate={{
+        borderColor: isOpen ? 'rgba(94, 234, 212, 0.38)' : 'rgba(148, 163, 184, 0.16)',
+      }}
+      transition={{ type: 'spring', stiffness: 260, damping: 22 }}
     >
       <span className="card-shine" />
       {!isOpen ? (
@@ -32,6 +40,6 @@ export function RoleCard({ isOpen, isSpy, place, onClick }: RoleCardProps) {
           <em>Запомни место, нажми снова и передай устройство дальше.</em>
         </>
       )}
-    </button>
+    </motion.button>
   )
 }
