@@ -11,10 +11,30 @@ export type Player = {
   name: string
 }
 
-export type Game = {
+export type GameMode = 'spy' | 'mafia'
+
+export type SpyGame = {
   category: Category
   place: string
   spyId: string
   firstSpeakerId: string
-  startedAt: number
+}
+
+export type MafiaRoleId = 'mafia' | 'don' | 'commissar' | 'doctor' | 'civilian'
+
+export type MafiaRole = {
+  id: MafiaRoleId
+  name: string
+  team: 'mafia' | 'city'
+  description: string
+}
+
+export type MafiaAssignment = {
+  playerId: string
+  role: MafiaRole
+}
+
+export type MafiaGame = {
+  assignments: MafiaAssignment[]
+  firstSpeakerId: string
 }

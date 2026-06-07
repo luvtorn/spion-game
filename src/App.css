@@ -19,6 +19,64 @@
   padding: 18px 0 26px;
 }
 
+.game-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.48);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.game-tab {
+  position: relative;
+  overflow: hidden;
+  min-height: 64px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: transparent;
+  color: #94a3b8;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.game-tab strong,
+.game-tab small {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.game-tab strong {
+  color: #f8fafc;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.game-tab small {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.game-tab.active {
+  border-color: rgba(94, 234, 212, 0.32);
+}
+
+.tab-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgba(45, 212, 191, 0.18), rgba(96, 165, 250, 0.12)),
+    rgba(15, 23, 42, 0.82);
+  box-shadow: 0 0 32px rgba(45, 212, 191, 0.12);
+}
+
 .eyebrow,
 .label,
 .hint,
@@ -593,6 +651,13 @@ h2 {
   transform: translateY(-1px);
 }
 
+.primary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+}
+
 .secondary-button:hover,
 .ghost-button:hover {
   border-color: rgba(94, 234, 212, 0.38);
@@ -653,6 +718,71 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 22px;
+}
+
+.mafia-rules-card,
+.role-preview,
+.mafia-night-order {
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 8px;
+  padding: 14px;
+  background:
+    linear-gradient(135deg, rgba(251, 113, 133, 0.1), rgba(167, 139, 250, 0.06)),
+    rgba(15, 23, 42, 0.62);
+}
+
+.mafia-rules-card p,
+.mafia-night-order p {
+  margin-top: 7px;
+  color: #a5b4cf;
+  font-size: 14px;
+}
+
+.role-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.role-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.role-preview-card {
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(2, 6, 23, 0.48);
+}
+
+.role-preview-card strong,
+.role-preview-card span,
+.mafia-night-order span {
+  display: block;
+}
+
+.role-preview-card strong {
+  color: #fb7185;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.role-preview-card span,
+.mafia-night-order span {
+  color: #f8fafc;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.warning-pill {
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: #fed7aa;
+  background: rgba(245, 158, 11, 0.14);
+  font-size: 12px;
+  font-weight: 850;
 }
 
 .place-chip {
@@ -746,6 +876,34 @@ h2 {
   border-color: rgba(94, 234, 212, 0.32);
 }
 
+.mafia-role {
+  background:
+    linear-gradient(145deg, rgba(69, 10, 10, 0.72), rgba(30, 27, 75, 0.86)),
+    #0f172a;
+}
+
+.mafia-role.revealed {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(251, 113, 133, 0.22), transparent 42%),
+    linear-gradient(145deg, rgba(8, 13, 26, 0.98), rgba(49, 16, 42, 0.94)),
+    #020617;
+  border-color: rgba(251, 113, 133, 0.36);
+}
+
+.mafia-team {
+  display: inline-flex;
+  max-width: 100%;
+  margin-top: 18px;
+  border: 1px solid rgba(251, 113, 133, 0.22);
+  border-radius: 999px;
+  padding: 8px 11px;
+  color: #fecdd3;
+  background: rgba(251, 113, 133, 0.1);
+  font-size: 14px;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
 .card-shine {
   position: absolute;
   inset: -30% auto auto -18%;
@@ -828,6 +986,10 @@ h2 {
     align-items: flex-start;
   }
 
+  .game-tabs {
+    margin-bottom: 14px;
+  }
+
   h1 {
     font-size: 42px;
   }
@@ -875,6 +1037,10 @@ h2 {
   .role-card strong {
     font-size: 42px;
   }
+
+  .role-preview-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 460px) {
@@ -887,6 +1053,17 @@ h2 {
     align-items: center;
     flex-direction: row;
     padding: 10px 0 14px;
+  }
+
+  .game-tabs {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 5px;
+  }
+
+  .game-tab {
+    min-height: 56px;
+    padding: 9px 10px;
   }
 
   .eyebrow {
@@ -992,6 +1169,10 @@ h2 {
     padding: 12px;
   }
 
+  .role-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .stepper {
     grid-template-columns: 36px 38px 36px;
   }
@@ -1090,6 +1271,12 @@ h2 {
     margin-top: 14px;
     font-size: 15px;
   }
+
+  .mafia-team {
+    align-items: flex-start;
+    border-radius: 8px;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 360px) {
@@ -1107,6 +1294,10 @@ h2 {
   }
 
   .category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .role-preview-grid {
     grid-template-columns: 1fr;
   }
 

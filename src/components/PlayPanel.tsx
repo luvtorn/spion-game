@@ -1,8 +1,8 @@
-import type { Game, Player } from '../types'
+import type { Player, SpyGame } from '../types'
 import { RoleCard } from './RoleCard'
 
 type PlayPanelProps = {
-  game: Game | null
+  game: SpyGame | null
   players: Player[]
   activeIndex: number
   isCardOpen: boolean
